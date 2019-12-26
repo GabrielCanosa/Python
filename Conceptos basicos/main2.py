@@ -61,5 +61,34 @@ conexion = sqlite3.connect("BaseDeDatos.db")
 cursor = conexion.cursor()
 cursor.execute("CREATE TABLE Personas(id INT NOT NULL, nombre VARCHAR(30) NOT NULL)")
 
+# Añadir un registro
+cursor.execute("INSERT INTO Personas VALUES (1, 'Juan')")
+
+# Añadir varios registros a la vez
+personas = [{2, 'Claudia'}, {3, 'Eduardo'}, {4, 'Belen'}]
+
+cursor.executemany("INSERT INTO Personas VALUES (?,?)", personas)
+
+# Consultar datos
+cursor.execute("SELECT * FROM Personas")
+
+personas2 = cursor.fetchall()
+
+# Consultar datos con where
+cursor.execute("SELECT * FROM Personas WHERE nombre LIKE 'B%'")
+
+personasEmpiezaPorB = cursor.fetchall()
+
+# Consultar datos ordenados
+cursor.execute("SELECT * FROM Personas ORDER BY id DESC")
+
+personasIdDesc = cursor.fetchall()
+
+# Borrar datos de la tabla
+cursor.execute("DELETE FROM Personas WHERE nombre = 'Eduardo'")
+
+# Actualizar datos de la tabla
+cursor.execute("UPDATE Personas SET nombre = 'Raul' WHERE id = 2")
+
 conexion.commit()
 conexion.close()
